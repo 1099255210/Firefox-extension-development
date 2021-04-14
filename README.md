@@ -36,7 +36,7 @@
 }
 ```
 
-必要的操作是提供 48\*48 以及 96\*96 的图标，以获得更高清的显示
+必要的操作是提供 48\*48 以及 96\*96 的图标，以获得更高清的显示。
 
 #### borderify.js
 
@@ -70,8 +70,6 @@ borderify/
 尝试修改 `borderify.js` 的内容，比如把 red 改成 blue，然后点击 <about:debugging> 中的重载，可以立马看到变化的效果。
 
 ## 第二个拓展
-
-### 概念引入 ：API
 
 ### 编写
 
@@ -159,9 +157,54 @@ borderify/
 
 同样地进入 `about:debugging` 页面载入插件，选中 `menifest.json` 文件。
 
-此时浏览器的右上角会显示出一个图标[!image](/02-beastify/icons/beasts-48.png)
+此时浏览器的右上角会显示出一个图标![img](/02-beastify/icons/beasts-32.png)
 
 打开新的标签页，点击右上角的图标来进行测试。
+
+## 第三个拓展
+
+### manifest.json
+
+```json
+{
+	"manifest_version": 2,
+	"name": "selection-to-clipboard",
+	"description": "Example of WebExtensionAPI for writing to the clipboard",
+	"version": "1.0",
+	"homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/selection-to-clipboard",
+
+	"icons": {
+		"48": "icons/clipboard-48.png"
+	},
+
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["content-script.js"]
+		}
+	]
+}
+```
+
+### content-script.js
+
+```js
+/*
+copy the selected text to clipboard
+*/
+function copySelection() {
+	var selectedText = window.getSelection().toString().trim();
+
+	if (selectedText) {
+		document.execCommand("Copy");
+	}
+}
+
+/*
+Add copySelection() as a listener to mouseup events.
+*/
+document.addEventListener("mouseup", copySelection);
+```
 
 ## 参考资料
 
